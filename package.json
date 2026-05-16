@@ -1,0 +1,20 @@
+{
+  "name": "infy_playwright-main",
+  "version": "1.0.0",
+  "description": "WebApp Testing Automation",
+  "main": "babel.config.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.60.0",
+    "express": "^5.2.1",
+    "html-template-tag": "^5.0.0",
+    "jest-worker": "^30.4.1",
+    "playwright": "^1.60.0"
+  }
+}

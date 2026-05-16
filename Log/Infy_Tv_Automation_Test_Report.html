@@ -1,0 +1,507 @@
+<html><head><meta charset="utf-8"/><title>Infy Tv Automation Test Report</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+#jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div id="jesthtml-content"><header><h1 id="title">Infy Tv Automation Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2023-03-24 14:08:57</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed">1 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (1)</div><div class="summary-passed">1 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><div class="suite-info"><div class="suite-path">C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js</div><div class="suite-time warn">174.786s</div></div><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">End Point Only Floor Price</div><div class="test-title">End Point Only Floor Price</div><div class="test-status">passed</div><div class="test-duration">172.778s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:10:13)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Going on URL 'https://sbapp.infy.tv/login '.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:23:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered DSP User Email Id 'qadsp01@yopmail.com.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:26:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Login' button after Entered DSP user Email.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:30:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered DSP User Password 'Test@123.'</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:34:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Login' button after enter Password.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:40:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'Finance' Button is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:43:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'Add New' Button is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:46:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Add New' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:51:17)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'RTB End Point Integration' Modal is Opened.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:65:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'RTB End Point Integration' Modal is Opened.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:70:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on Toggle Button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:73:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on Fix Floor Radio Button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:76:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on Input of Min Floor Price.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:81:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Test Integration' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:85:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Error of 'Enter Your Floor Price' is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:90:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered '5' Min Floor Price in input Box.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:98:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered Integration Name 'test446947'.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:101:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Text 'RTB2.5' of Selected RTB Radio Button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:106:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Label of 'Floor Price' is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:109:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on Checkbox of 'All'.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:123:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Enter End Point URL 'https://nxs.infy.tv/openrtb2/erftctsd'.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:128:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Test Integration' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:132:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'Error' Toaster is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:136:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered '5' Min Floor Price in input Box.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:140:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Test Integration' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:146:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">'Success' Toaster is visible.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:156:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">test446947</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:161:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Floor Price Value is matched on RTB End Point.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:171:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Details' icon.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:176:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title 'Endpoint Details' of Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:179:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Close  Button is visible on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:182:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Close' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:185:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Test Integration' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:188:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title 'Endpoint Details' of Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:191:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched End Point Name 'test446947' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:194:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Price '5' of Min Floor Price on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:200:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'https://nxs.infy.tv/openrtb2/erftctsd' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:203:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Mobile/Tablet' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:206:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Personal Computer' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:209:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Connected TV' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:212:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Phone' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:215:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Tablet' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:218:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Connected Device' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:221:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Device Type name of 'Set Top Box' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:224:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Close' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:227:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Close  Button is visible on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:230:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Close' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:233:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title of 'Update RTB End Point' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:242:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title of 'Update RTB End Point' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:246:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title of 'Update RTB End Point' on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:250:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Close' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:255:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Entered Integration Name 'test446947'.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:258:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Clicked on 'Close' button.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:263:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Close  Button is visible on Modal.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:267:15)
+    at tryCatch (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.&lt;anonymous&gt; (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at Generator.next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at asyncGeneratorStep (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)
+    at _next (C:\Users\ADMIN\webapp-test\Tests\DSP_User\New_RTB_End_Point_With_Floor_Price.spec.js:2:1)</pre><pre class="suite-consolelog-item-message">Matched Title of 'Update RTB End Point' on Modal.</pre></div></div></div></div></body></html>
