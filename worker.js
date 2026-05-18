@@ -1,10 +1,24 @@
+const fs = require('fs');
+const path = require('path');
 const { chromium } = require('playwright');
 
+const ARTIFACTS_DIR = path.join(process.cwd(), 'artifacts');
+
+function ensureArtifactsDir() {
+    if (!fs.existsSync(ARTIFACTS_DIR)) {
+        fs.mkdirSync(ARTIFACTS_DIR, { recursive: true });
+    }
+}
+
 module.exports.runTest = async (data) => {
+    ensureArtifactsDir();
+
+    const headless = process.env.HEADLESS !== 'false';
+    const slowMo = headless ? 0 : 500;
 
     const browser = await chromium.launch({
-        headless: false,
-        slowMo: 500
+        headless,
+        slowMo
     });
 
     const page = await browser.newPage({
@@ -157,7 +171,7 @@ module.exports.runTest = async (data) => {
 
                     // Screenshot each page
                     await newPage.screenshot({
-                        path: `artifacts/${Date.now()}.png`,
+                        path: path.join(ARTIFACTS_DIR, `${Date.now()}.png`),
                         fullPage: true
                     });
 
@@ -179,7 +193,7 @@ module.exports.runTest = async (data) => {
         // FINAL SCREENSHOT
         // ============================
         const screenshotPath =
-            `artifacts/success-${Date.now()}.png`;
+            path.join(ARTIFACTS_DIR, `success-${Date.now()}.png`);
 
         await page.screenshot({
             path: screenshotPath,
@@ -203,7 +217,7 @@ module.exports.runTest = async (data) => {
         console.log("Test Failed:", error.message);
 
         const screenshotPath =
-            `artifacts/failure-${Date.now()}.png`;
+            path.join(ARTIFACTS_DIR, `failure-${Date.now()}.png`);
 
         await page.screenshot({
             path: screenshotPath,
