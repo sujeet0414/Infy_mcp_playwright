@@ -42,8 +42,8 @@
     "node": ">=18.0.0"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
+  "registry": "https://registry.npmjs.org/"
+}, 
   "dependencies": {
     "@playwright/test": "^1.60.0",
     "express": "^5.2.1",
