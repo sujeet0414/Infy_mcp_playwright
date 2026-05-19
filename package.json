@@ -1,11 +1,13 @@
 {
-  "name": "infy-mcp-playwright",
-  "version": "1.1.0",
+  "name": "@sujeet0414/infy-mcp-playwright",
+  "version": "1.1.1",
   "description": "MCP Playwright server for web app testing automation via HTTP API",
   "main": "index.js",
+
   "bin": {
     "infy-mcp-playwright": "bin/cli.js"
   },
+
   "files": [
     "index.js",
     "server.js",
@@ -15,11 +17,13 @@
     "README.md",
     "LICENSE"
   ],
+
   "scripts": {
     "start": "node server.js",
     "prepublishOnly": "npm pack --dry-run",
-    "postinstall": "npx playwright install chromium || true"
+    "postinstall": "playwright install chromium"
   },
+
   "keywords": [
     "playwright",
     "mcp",
@@ -28,26 +32,35 @@
     "e2e",
     "testing"
   ],
+
   "author": "sujeet0414",
+
   "license": "ISC",
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sujeet0414/Infy_mcp_playwright.git"
   },
+
   "bugs": {
     "url": "https://github.com/sujeet0414/Infy_mcp_playwright/issues"
   },
+
   "homepage": "https://github.com/sujeet0414/Infy_mcp_playwright#readme",
+
   "engines": {
     "node": ">=18.0.0"
   },
+
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+
   "dependencies": {
     "@playwright/test": "^1.60.0",
     "express": "^5.2.1",
-    "fs": "^0.0.1-security",
     "html-template-tag": "^5.0.0",
     "jest-worker": "^30.4.1",
-    "path": "^0.12.7",
     "playwright": "^1.60.0"
   }
 }
