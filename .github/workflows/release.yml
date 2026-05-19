@@ -1,4 +1,4 @@
-name: Auto Release & Publish
+name: Release & Publish to NPM
 
 on:
   push:
@@ -10,35 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
-      - name: Checkout repository
+      # Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
+      # Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
 
-      # 3. Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Run tests (optional - will not break pipeline if tests fail)
+      # Run tests (safe fallback)
       - name: Run tests
         run: npm test || true
 
-      # 5. Publish to npm
-      - name: Publish package to npm
+      # Build step (optional, safe)
+      - name: Build project
+        run: npm run build || true
+
+      # Publish to npm
+      - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # 6. Create GitHub Release
+      # Create GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}git add .
