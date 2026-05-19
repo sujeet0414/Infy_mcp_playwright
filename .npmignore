@@ -1,0 +1,22 @@
+# Internal test suites and fixtures (may contain credentials)
+jest_Test/
+locators/
+utils/
+Log/
+Abstract/
+
+# Dev / CI config
+jest.config.js
+jest-playwright.config.js
+playwright.config.ts
+babel.config.js
+Dockerfile
+parent.js
+
+# Local artifacts
+artifacts/
+*.png
+success.png
+
+# Docs not needed in package
+README.webapp-test.md

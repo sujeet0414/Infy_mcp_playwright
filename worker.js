@@ -1,12 +1,25 @@
-const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
+const { chromium } = require('playwright');
+
+function ensureArtifactsDir() {
+
+    if (!fs.existsSync('artifacts')) {
+        fs.mkdirSync('artifacts');
+    }
+
+    if (!fs.existsSync('reports')) {
+        fs.mkdirSync('reports');
+    }
+}
 
 module.exports.runTest = async (data) => {
 
+    ensureArtifactsDir();
+
     const browser = await chromium.launch({
         headless: false,
-        slowMo: 300
+        slowMo: 500
     });
 
     const page = await browser.newPage();
@@ -59,9 +72,7 @@ module.exports.runTest = async (data) => {
 
             try {
 
-                if (
-                    !link.href.startsWith('http')
-                ) {
+                if (!link.href.startsWith('http')) {
                     continue;
                 }
 
@@ -82,29 +93,27 @@ module.exports.runTest = async (data) => {
 
                 const title = await newPage.title();
 
-                const failed =
+                const badPage =
                     status >= 400 ||
                     title.toLowerCase().includes('404') ||
                     title.toLowerCase().includes('not found') ||
                     title.toLowerCase().includes('error');
 
-                const screenshot =
+                const screenshotPath =
                     `artifacts/${Date.now()}.png`;
 
                 await newPage.screenshot({
-                    path: screenshot,
+                    path: screenshotPath,
                     fullPage: true
                 });
 
                 checkedPages.push({
                     name: link.text || 'No Text',
                     url: link.href,
-                    status,
-                    title,
-                    result: failed
-                        ? 'FAILED'
-                        : 'PASSED',
-                    screenshot
+                    status: status,
+                    title: title,
+                    result: badPage ? 'FAILED' : 'PASSED',
+                    screenshot: screenshotPath
                 });
 
                 await newPage.close();
@@ -120,10 +129,7 @@ module.exports.runTest = async (data) => {
             }
         }
 
-        // =========================
-        // HTML REPORT
-        // =========================
-
+        // REPORT COUNTS
         const passed =
             checkedPages.filter(
                 x => x.result === 'PASSED'
@@ -134,10 +140,11 @@ module.exports.runTest = async (data) => {
                 x => x.result === 'FAILED'
             ).length;
 
+        // HTML REPORT
         const reportHtml = `
         <html>
         <head>
-            <title>AI QA Report</title>
+            <title>AI QA REPORT</title>
 
             <style>
 
@@ -157,7 +164,7 @@ module.exports.runTest = async (data) => {
                 }
 
                 th {
-                    background: #333;
+                    background: black;
                     color: white;
                 }
 
@@ -214,12 +221,6 @@ module.exports.runTest = async (data) => {
         </html>
         `;
 
-        // CREATE REPORTS FOLDER
-        if (!fs.existsSync('reports')) {
-
-            fs.mkdirSync('reports');
-        }
-
         const reportPath =
             `reports/report-${Date.now()}.html`;
 
@@ -230,23 +231,46 @@ module.exports.runTest = async (data) => {
 
         console.log("HTML Report Generated");
 
+        const finalScreenshot =
+            `artifacts/final-${Date.now()}.png`;
+
+        await page.screenshot({
+            path: finalScreenshot,
+            fullPage: true
+        });
+
         await browser.close();
 
         return {
             status: 'passed',
+            url: data.url,
             totalPages: checkedPages.length,
             passed,
             failed,
-            report: reportPath
+            checkedPages,
+            consoleErrors,
+            report: reportPath,
+            screenshot: finalScreenshot
         };
 
     } catch (error) {
+
+        console.log("Test Failed:", error.message);
+
+        const failureScreenshot =
+            `artifacts/failure-${Date.now()}.png`;
+
+        await page.screenshot({
+            path: failureScreenshot,
+            fullPage: true
+        });
 
         await browser.close();
 
         return {
             status: 'failed',
-            error: error.message
+            error: error.message,
+            screenshot: failureScreenshot
         };
     }
 };
