@@ -13,8 +13,10 @@
   "dependencies": {
     "@playwright/test": "^1.60.0",
     "express": "^5.2.1",
+    "fs": "^0.0.1-security",
     "html-template-tag": "^5.0.0",
     "jest-worker": "^30.4.1",
+    "path": "^0.12.7",
     "playwright": "^1.60.0"
   }
 }
