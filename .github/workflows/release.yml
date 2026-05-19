@@ -1,12 +1,12 @@
-name: Release & Publish
+name: Auto Release & Publish
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main   # runs on every push to main
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,20 +17,35 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Force correct registry
-        run: npm config set registry https://registry.npmjs.org/
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: npm install
 
+      - name: Run tests (optional)
+        run: npm test || true
+
+      # 🚨 AUTO VERSION BUMP
+      - name: Bump version
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          npm version patch -m "auto release %s"
+
+      # 📦 Publish to npm
       - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Create GitHub Release
+      # 🚀 Push version tag back to repo
+      - name: Push changes
+        run: git push --follow-tags origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 🎉 Create GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
