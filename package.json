@@ -3,9 +3,15 @@
   "version": "1.1.13",
   "description": "MCP Playwright server for web app testing automation via HTTP API",
   "main": "index.js",
+
+  "publishConfig": {
+    "access": "public"
+  },
+
   "bin": {
     "infy-mcp-playwright": "bin/cli.js"
   },
+
   "files": [
     "index.js",
     "server.js",
@@ -15,32 +21,44 @@
     "README.md",
     "LICENSE"
   ],
+
   "scripts": {
     "start": "node server.js",
     "prepublishOnly": "npm pack --dry-run",
     "postinstall": "npx playwright install chromium || true"
   },
+
   "keywords": [
     "playwright",
     "mcp",
     "automation",
     "webapp-testing",
     "e2e",
-    "testing"
+    "testing",
+    "browser-automation",
+    "qa",
+    "ai-testing"
   ],
+
   "author": "sujeet0414",
-  "license": "ISC",
+
+  "license": "Apache-2.0",
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sujeet0414/Infy_mcp_playwright.git"
   },
+
   "bugs": {
     "url": "https://github.com/sujeet0414/Infy_mcp_playwright/issues"
   },
+
   "homepage": "https://github.com/sujeet0414/Infy_mcp_playwright#readme",
+
   "engines": {
     "node": ">=18.0.0"
   },
+
   "dependencies": {
     "@playwright/test": "^1.60.0",
     "express": "^5.2.1",
