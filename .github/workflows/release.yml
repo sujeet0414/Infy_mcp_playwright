@@ -2,11 +2,9 @@ name: Auto Release
 
 on:
   push:
-    branches:
-      - main
-  push:
     tags:
       - "v*"
+
   workflow_dispatch:
 
 jobs:
@@ -14,20 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: https://registry.npmjs.org
+          registry-url: "https://registry.npmjs.org"
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      - name: Publish to npm
+      - name: Publish package to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push git changes (only for main)
-        if: github.ref == 'refs/heads/main'
-        run: git push origin main
