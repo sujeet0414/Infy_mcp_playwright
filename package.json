@@ -34,15 +34,18 @@
   "author": "sujeet0414",
   "license": "Apache-2.0",
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sujeet0414/Infy_mcp_playwright.git"
-  },
+  "type": "git",
+  "url": "git+https://github.com/sujeet0414/Infy_mcp_playwright.git"
+},
   "bugs": {
     "url": "https://github.com/sujeet0414/Infy_mcp_playwright/issues"
   },
   "homepage": "https://github.com/sujeet0414/Infy_mcp_playwright#readme",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "@playwright/test": "^1.60.0",
