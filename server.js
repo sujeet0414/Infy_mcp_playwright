@@ -1,5 +1,6 @@
 const express = require('express');
-const { Worker } = require('jest-worker');
+
+const { runTest } = require('./worker');
 
 const app = express();
 
@@ -9,22 +10,18 @@ app.post('/run-test', async (req, res) => {
 
     try {
 
-        const worker = new Worker(require.resolve('./worker'), {
-            numWorkers: 4
-        });
+        console.log("Request Received");
 
-        const result = await worker.runTest(req.body);
-
-        console.log(result);
+        const result = await runTest(req.body);
 
         res.json(result);
 
-    } catch (error) {
+    } catch (err) {
 
-        console.log(error);
+        console.log("SERVER ERROR:", err);
 
         res.status(500).json({
-            error: error.message
+            error: err.message
         });
     }
 });
@@ -32,5 +29,6 @@ app.post('/run-test', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
+
     console.log(`MCP Server Running on Port ${PORT}`);
 });

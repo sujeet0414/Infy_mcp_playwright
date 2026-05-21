@@ -1,276 +1,854 @@
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
 
-function ensureArtifactsDir() {
+const {
+    chromium,
+    firefox,
+    webkit,
+    devices
+} = require('playwright');
 
-    if (!fs.existsSync('artifacts')) {
-        fs.mkdirSync('artifacts');
+const AxeBuilder =
+    require('@axe-core/playwright').default;
+
+function ensureDir(name) {
+
+    if (!fs.existsSync(name)) {
+
+        fs.mkdirSync(name, {
+            recursive: true
+        });
     }
+}
 
-    if (!fs.existsSync('reports')) {
-        fs.mkdirSync('reports');
-    }
+function ensureArtifacts() {
+
+    ensureDir('artifacts');
+    ensureDir('reports');
+    ensureDir('json-reports');
+    ensureDir('videos');
+}
+
+function safeFileName(name) {
+
+    return name
+        .replace(/[^a-z0-9]/gi, '_')
+        .toLowerCase()
+        .substring(0, 50);
 }
 
 module.exports.runTest = async (data) => {
 
-    ensureArtifactsDir();
+    ensureArtifacts();
 
-    const browser = await chromium.launch({
-        headless: false,
-        slowMo: 500
-    });
+    const browserType =
+        data.browser || 'chromium';
 
-    const page = await browser.newPage();
+    const browserLauncher = {
+
+        chromium,
+        firefox,
+        webkit
+
+    }[browserType];
+
+    const browser =
+        await browserLauncher.launch({
+
+            headless:
+                data.headless !== false,
+
+            slowMo:
+                data.slowMo || 200
+        });
+
+    const context =
+        await browser.newContext({
+
+            ...(data.mobile
+                ? devices['iPhone 13']
+                : {}),
+
+            recordVideo: {
+                dir: 'videos/'
+            },
+
+            colorScheme:
+                data.darkMode
+                    ? 'dark'
+                    : 'light'
+        });
+
+    const page =
+        await context.newPage();
 
     const checkedPages = [];
     const consoleErrors = [];
+    const jsErrors = [];
+    const networkFailures = [];
+    const slowApis = [];
+    const brokenImages = [];
+    const failedRequests = [];
+    const accessibilityIssues = [];
 
+    // CONSOLE ERRORS
     page.on('console', msg => {
 
         if (msg.type() === 'error') {
 
-            consoleErrors.push(msg.text());
+            consoleErrors.push({
+
+                text: msg.text(),
+
+                location:
+                    msg.location()
+            });
         }
+    });
+
+    // PAGE JS ERRORS
+    page.on('pageerror', error => {
+
+        jsErrors.push({
+            message: error.message
+        });
+    });
+
+    // FAILED REQUESTS
+    page.on('requestfailed', request => {
+
+        failedRequests.push({
+
+            url: request.url(),
+
+            method:
+                request.method()
+        });
+    });
+
+    // NETWORK FAILURES
+    page.on('response', async response => {
+
+        try {
+
+            const status =
+                response.status();
+
+            if (status >= 400) {
+
+                networkFailures.push({
+
+                    url:
+                        response.url(),
+
+                    status
+                });
+            }
+
+            const timing =
+                response.request().timing();
+
+            if (
+                timing &&
+                timing.responseEnd > 5000
+            ) {
+
+                slowApis.push({
+
+                    url:
+                        response.url(),
+
+                    time:
+                        timing.responseEnd
+                });
+            }
+
+        } catch (err) {}
+    });
+
+    // HANDLE POPUPS
+    page.on('dialog', async dialog => {
+
+        console.log(
+            "Popup detected:",
+            dialog.message()
+        );
+
+        await dialog.dismiss();
     });
 
     try {
 
-        console.log("Opening:", data.url);
-
-        await page.goto(data.url, {
-            waitUntil: 'networkidle',
-            timeout: 60000
-        });
-
-        // GET LINKS
-        const links = await page.$$eval(
-            data.checkLinks.selector,
-            elements => elements.map(el => ({
-                text: el.innerText.trim(),
-                href: el.href
-            }))
+        console.log(
+            "Opening:",
+            data.url
         );
 
+        const startTime =
+            Date.now();
+
+        await page.goto(
+            data.url,
+            {
+                waitUntil:
+                    'networkidle',
+
+                timeout:
+                    60000
+            }
+        );
+
+        const loadTime =
+            Date.now() - startTime;
+
+        console.log(
+            "Page Load Time:",
+            loadTime
+        );
+
+        // PERFORMANCE METRICS
+        const performanceMetrics =
+            await page.evaluate(() => {
+
+                const timing =
+                    performance.timing;
+
+                return {
+
+                    dns:
+                        timing.domainLookupEnd -
+                        timing.domainLookupStart,
+
+                    tcp:
+                        timing.connectEnd -
+                        timing.connectStart,
+
+                    ttfb:
+                        timing.responseStart -
+                        timing.requestStart,
+
+                    domLoad:
+                        timing.domContentLoadedEventEnd -
+                        timing.navigationStart,
+
+                    fullLoad:
+                        timing.loadEventEnd -
+                        timing.navigationStart
+                };
+            });
+
+        // MEMORY USAGE
+        const memoryUsage =
+            await page.evaluate(() => {
+
+                if (
+                    performance.memory
+                ) {
+
+                    return {
+
+                        usedJSHeapSize:
+                            performance.memory.usedJSHeapSize
+                    };
+                }
+
+                return {};
+            });
+
+        // EMPTY PAGE DETECTION
+        const bodyText =
+            await page.textContent('body');
+
+        const emptyPage =
+            !bodyText ||
+            bodyText.trim().length < 20;
+
+        // INFINITE LOADER CHECK
+        const loaders =
+            await page.$$(
+                '.loading,.spinner,.loader'
+            );
+
+        const possibleInfiniteLoader =
+            loaders.length > 0;
+
+        // SEO CHECK
+        const seo =
+            await page.evaluate(() => {
+
+                return {
+
+                    title:
+                        document.title,
+
+                    description:
+                        document
+                            .querySelector(
+                                'meta[name="description"]'
+                            )
+                            ?.content || '',
+
+                    h1:
+                        document
+                            .querySelector('h1')
+                            ?.innerText || '',
+
+                    canonical:
+                        document
+                            .querySelector(
+                                'link[rel="canonical"]'
+                            )
+                            ?.href || ''
+                };
+            });
+
+        // BROKEN IMAGES
+        const imageResults =
+            await page.$$eval(
+                'img',
+                imgs => imgs.map(img => ({
+
+                    src: img.src,
+
+                    width:
+                        img.naturalWidth,
+
+                    height:
+                        img.naturalHeight
+                }))
+            );
+
+        imageResults.forEach(img => {
+
+            if (
+                img.width === 0 ||
+                img.height === 0
+            ) {
+
+                brokenImages.push(
+                    img.src
+                );
+            }
+        });
+
+        // ACCESSIBILITY TEST
+        try {
+
+            const accessibilityScan =
+                await new AxeBuilder({
+                    page
+                }).analyze();
+
+            accessibilityIssues.push(
+                ...accessibilityScan.violations
+            );
+
+        } catch (err) {
+
+            console.log(
+                "Accessibility scan failed"
+            );
+        }
+
+        // GET LINKS
+        const links =
+            await page.$$eval(
+                data.checkLinks?.selector || 'a',
+
+                elements =>
+                    elements.map(el => ({
+
+                        text:
+                            el.innerText.trim(),
+
+                        href:
+                            el.href
+                    }))
+            );
+
+        // REMOVE DUPLICATES
         const uniqueLinks = [];
 
         for (const link of links) {
 
             if (
                 link.href &&
-                !uniqueLinks.find(x => x.href === link.href)
+                !uniqueLinks.find(
+                    x =>
+                        x.href ===
+                        link.href
+                )
             ) {
+
                 uniqueLinks.push(link);
             }
         }
 
-        console.log("Total Links:", uniqueLinks.length);
+        console.log(
+            "Total Unique Links:",
+            uniqueLinks.length
+        );
 
-        // CHECK EACH PAGE
-        for (const link of uniqueLinks) {
+        // PARALLEL LINK CHECKING
+        await Promise.all(
 
-            try {
+            uniqueLinks.map(async link => {
 
-                if (!link.href.startsWith('http')) {
-                    continue;
-                }
+                try {
 
-                console.log("Checking:", link.href);
-
-                const newPage = await browser.newPage();
-
-                const response = await newPage.goto(
-                    link.href,
-                    {
-                        waitUntil: 'domcontentloaded',
-                        timeout: 30000
+                    if (
+                        !link.href ||
+                        !link.href.startsWith('http')
+                    ) {
+                        return;
                     }
-                );
 
-                const status =
-                    response ? response.status() : 0;
+                    console.log(
+                        "Checking:",
+                        link.href
+                    );
 
-                const title = await newPage.title();
+                    const newPage =
+                        await context.newPage();
 
-                const badPage =
-                    status >= 400 ||
-                    title.toLowerCase().includes('404') ||
-                    title.toLowerCase().includes('not found') ||
-                    title.toLowerCase().includes('error');
+                    let response;
 
-                const screenshotPath =
-                    `artifacts/${Date.now()}.png`;
+                    // RETRY LOGIC
+                    for (
+                        let i = 0;
+                        i < 3;
+                        i++
+                    ) {
 
-                await newPage.screenshot({
-                    path: screenshotPath,
-                    fullPage: true
-                });
+                        try {
 
-                checkedPages.push({
-                    name: link.text || 'No Text',
-                    url: link.href,
-                    status: status,
-                    title: title,
-                    result: badPage ? 'FAILED' : 'PASSED',
-                    screenshot: screenshotPath
-                });
+                            response =
+                                await newPage.goto(
+                                    link.href,
+                                    {
 
-                await newPage.close();
+                                        waitUntil:
+                                            'domcontentloaded',
 
-            } catch (err) {
+                                        timeout:
+                                            30000
+                                    }
+                                );
 
-                checkedPages.push({
-                    name: link.text || 'No Text',
-                    url: link.href,
-                    result: 'FAILED',
-                    error: err.message
-                });
-            }
-        }
+                            break;
 
-        // REPORT COUNTS
+                        } catch (err) {
+
+                            console.log(
+                                "Retrying:",
+                                link.href
+                            );
+                        }
+                    }
+
+                    const status =
+                        response
+                            ? response.status()
+                            : 0;
+
+                    const title =
+                        await newPage.title();
+
+                    const currentUrl =
+                        newPage.url();
+
+                    const redirected =
+                        currentUrl !==
+                        link.href;
+
+                    const failed =
+                        status >= 400 ||
+                        title
+                            .toLowerCase()
+                            .includes('404') ||
+                        title
+                            .toLowerCase()
+                            .includes('not found') ||
+                        title
+                            .toLowerCase()
+                            .includes('error');
+
+                    const safeName =
+                        safeFileName(
+                            link.text ||
+                            'page'
+                        );
+
+                    const screenshot =
+                        `artifacts/${safeName}-${Date.now()}.png`;
+
+                    await newPage.screenshot({
+
+                        path:
+                            screenshot,
+
+                        fullPage:
+                            true
+                    });
+
+                    checkedPages.push({
+
+                        name:
+                            link.text ||
+                            'No Text',
+
+                        url:
+                            link.href,
+
+                        finalUrl:
+                            currentUrl,
+
+                        redirected,
+
+                        status,
+
+                        title,
+
+                        result:
+                            failed
+                                ? 'FAILED'
+                                : 'PASSED',
+
+                        screenshot
+                    });
+
+                    await newPage.close();
+
+                } catch (err) {
+
+                    checkedPages.push({
+
+                        name:
+                            link.text ||
+                            'No Text',
+
+                        url:
+                            link.href,
+
+                        result:
+                            'FAILED',
+
+                        error:
+                            err.message
+                    });
+                }
+            })
+        );
+
         const passed =
             checkedPages.filter(
-                x => x.result === 'PASSED'
+                x =>
+                    x.result ===
+                    'PASSED'
             ).length;
 
         const failed =
             checkedPages.filter(
-                x => x.result === 'FAILED'
+                x =>
+                    x.result ===
+                    'FAILED'
             ).length;
 
+        // AI SUMMARY
+        const aiSummary = `
+
+Execution Summary
+
+Passed Pages: ${passed}
+Failed Pages: ${failed}
+Broken Images: ${brokenImages.length}
+Console Errors: ${consoleErrors.length}
+JS Errors: ${jsErrors.length}
+Failed APIs: ${networkFailures.length}
+Slow APIs: ${slowApis.length}
+Accessibility Issues: ${accessibilityIssues.length}
+
+`;
+
+        // JSON REPORT
+        const jsonReport = {
+
+            executionTime:
+                new Date(),
+
+            browser:
+                browserType,
+
+            url:
+                data.url,
+
+            loadTime,
+
+            performanceMetrics,
+
+            memoryUsage,
+
+            emptyPage,
+
+            possibleInfiniteLoader,
+
+            seo,
+
+            aiSummary,
+
+            totalPages:
+                checkedPages.length,
+
+            passed,
+
+            failed,
+
+            brokenImages,
+
+            consoleErrors,
+
+            jsErrors,
+
+            failedRequests,
+
+            networkFailures,
+
+            slowApis,
+
+            accessibilityIssues,
+
+            checkedPages
+        };
+
+        const jsonPath =
+            `json-reports/report-${Date.now()}.json`;
+
+        fs.writeFileSync(
+
+            jsonPath,
+
+            JSON.stringify(
+                jsonReport,
+                null,
+                2
+            )
+        );
+
         // HTML REPORT
-        const reportHtml = `
-        <html>
-        <head>
-            <title>AI QA REPORT</title>
+        const html = `
 
-            <style>
+<html>
 
-                body {
-                    font-family: Arial;
-                    padding: 20px;
-                }
+<head>
 
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
+<title>AI QA REPORT</title>
 
-                th, td {
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                }
+<style>
 
-                th {
-                    background: black;
-                    color: white;
-                }
+body{
+font-family:Arial;
+padding:20px;
+}
 
-                .passed {
-                    color: green;
-                    font-weight: bold;
-                }
+table{
+width:100%;
+border-collapse:collapse;
+}
 
-                .failed {
-                    color: red;
-                    font-weight: bold;
-                }
+th,td{
+border:1px solid #ccc;
+padding:10px;
+}
 
-            </style>
-        </head>
+th{
+background:black;
+color:white;
+}
 
-        <body>
+.passed{
+color:green;
+font-weight:bold;
+}
 
-            <h1>AI QA AUTOMATION REPORT</h1>
+.failed{
+color:red;
+font-weight:bold;
+}
 
-            <h3>Total Pages: ${checkedPages.length}</h3>
+</style>
 
-            <h3>Passed: ${passed}</h3>
+</head>
 
-            <h3>Failed: ${failed}</h3>
+<body>
 
-            <table>
+<h1>AI QA AUTOMATION REPORT</h1>
 
-                <tr>
-                    <th>Page</th>
-                    <th>URL</th>
-                    <th>Status</th>
-                    <th>Result</th>
-                </tr>
+<pre>${aiSummary}</pre>
 
-                ${checkedPages.map(page => `
-                    <tr>
-                        <td>${page.name}</td>
-                        <td>${page.url}</td>
-                        <td>${page.status || ''}</td>
-                        <td class="${
-                            page.result === 'PASSED'
-                            ? 'passed'
-                            : 'failed'
-                        }">
-                            ${page.result}
-                        </td>
-                    </tr>
-                `).join('')}
+<h3>Total Pages: ${checkedPages.length}</h3>
+<h3>Passed: ${passed}</h3>
+<h3>Failed: ${failed}</h3>
+<h3>Load Time: ${loadTime} ms</h3>
 
-            </table>
+<h3>Broken Images: ${brokenImages.length}</h3>
+<h3>Console Errors: ${consoleErrors.length}</h3>
+<h3>JS Errors: ${jsErrors.length}</h3>
+<h3>Failed APIs: ${networkFailures.length}</h3>
+<h3>Slow APIs: ${slowApis.length}</h3>
+<h3>Accessibility Issues: ${accessibilityIssues.length}</h3>
 
-        </body>
-        </html>
-        `;
+<table>
+
+<tr>
+<th>Page</th>
+<th>Status</th>
+<th>Result</th>
+<th>Redirected</th>
+</tr>
+
+${checkedPages.map(page => `
+
+<tr>
+
+<td>${page.url}</td>
+
+<td>${page.status || ''}</td>
+
+<td class="${
+    page.result === 'PASSED'
+        ? 'passed'
+        : 'failed'
+}">
+
+${page.result}
+
+</td>
+
+<td>
+${page.redirected || false}
+</td>
+
+</tr>
+
+`).join('')}
+
+</table>
+
+</body>
+
+</html>
+
+`;
 
         const reportPath =
             `reports/report-${Date.now()}.html`;
 
         fs.writeFileSync(
             reportPath,
-            reportHtml
+            html
         );
 
-        console.log("HTML Report Generated");
-
+        // FINAL SCREENSHOT
         const finalScreenshot =
             `artifacts/final-${Date.now()}.png`;
 
         await page.screenshot({
-            path: finalScreenshot,
-            fullPage: true
+
+            path:
+                finalScreenshot,
+
+            fullPage:
+                true
         });
 
         await browser.close();
 
         return {
-            status: 'passed',
-            url: data.url,
-            totalPages: checkedPages.length,
+
+            status:
+                'passed',
+
+            browser:
+                browserType,
+
+            loadTime,
+
+            performanceMetrics,
+
+            memoryUsage,
+
+            seo,
+
+            emptyPage,
+
+            possibleInfiniteLoader,
+
+            totalPages:
+                checkedPages.length,
+
             passed,
+
             failed,
-            checkedPages,
+
+            brokenImages,
+
             consoleErrors,
-            report: reportPath,
-            screenshot: finalScreenshot
+
+            jsErrors,
+
+            failedRequests,
+
+            networkFailures,
+
+            slowApis,
+
+            accessibilityIssues,
+
+            checkedPages,
+
+            aiSummary,
+
+            htmlReport:
+                reportPath,
+
+            jsonReport:
+                jsonPath,
+
+            screenshot:
+                finalScreenshot
         };
 
     } catch (error) {
 
-        console.log("Test Failed:", error.message);
+        console.log(
+            "FAILED:",
+            error.message
+        );
 
         const failureScreenshot =
             `artifacts/failure-${Date.now()}.png`;
 
         await page.screenshot({
-            path: failureScreenshot,
-            fullPage: true
+
+            path:
+                failureScreenshot,
+
+            fullPage:
+                true
         });
 
         await browser.close();
 
         return {
-            status: 'failed',
-            error: error.message,
-            screenshot: failureScreenshot
+
+            status:
+                'failed',
+
+            error:
+                error.message,
+
+            screenshot:
+                failureScreenshot
         };
     }
 };

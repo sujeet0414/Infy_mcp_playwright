@@ -1,5 +1,5 @@
 {
-  "name": "@sujeet0414/infy-mcp-playwright",
+  "name": "infy-mcp-playwright",
   "version": "1.1.17",
   "description": "MCP Playwright server for web app testing automation via HTTP API",
   "main": "index.js",
@@ -48,10 +48,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.60.0",
     "express": "^5.2.1",
     "html-template-tag": "^5.0.0",
-    "jest-worker": "^30.4.1",
     "playwright": "^1.60.0"
   }
 }
