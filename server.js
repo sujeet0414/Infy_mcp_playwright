@@ -6,6 +6,14 @@ const app = express();
 
 app.use(express.json());
 
+app.get('/health', (req, res) => {
+
+    res.json({
+        status: 'ok',
+        service: 'infy-mcp-playwright'
+    });
+});
+
 app.post('/run-test', async (req, res) => {
 
     try {

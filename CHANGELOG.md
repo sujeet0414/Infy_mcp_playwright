@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.18] - 2026-06-09
+
+### Added
+- Health check endpoint at `GET /health` for quick server readiness checks.
+
 ## [1.1.0] - 2026-05-18
 
 ### Added

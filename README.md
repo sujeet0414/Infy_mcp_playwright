@@ -36,6 +36,23 @@ MCP Server Running on Port 3000
 
 Set `PORT` to change the listen port (default: `3000`). Set `HEADLESS=false` to open a visible browser window.
 
+## Health check
+
+Verify the server is running without starting a browser test:
+
+```bash
+curl http://localhost:3000/health
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok",
+  "service": "infy-mcp-playwright"
+}
+```
+
 ## Run a test request
 
 ```bash
