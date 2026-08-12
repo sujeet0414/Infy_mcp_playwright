@@ -1,6 +1,7 @@
 # infy-mcp-playwright
 
 MCP Playwright server for web app testing automation. Exposes an HTTP API to run Playwright tests (navigation, clicks, link checks, screenshots).
+This tool can be used for quick website validation, smoke testing, link validation, accessibility testing, performance checks, and basic SEO testing. It reduces the need to manually create a separate Playwright framework for every small testing requirement.
 
 ## Install
 
